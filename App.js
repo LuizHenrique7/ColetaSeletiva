@@ -41,11 +41,11 @@ export default function MyStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen  name="Tela 1" component={App} options={{ headerShown: false }} />
-        <Stack.Screen name="Tela 2" component={Page1} />
-        <Stack.Screen name="Tela 3" component={Page2} />
-        <Stack.Screen name="Tela 4" component={Page3} />
-        <Stack.Screen name="Tela 5" component={Page4} />
+        <Stack.Screen  name="Tela 1" component={App}  options={{ headerShown: false }} />
+        <Stack.Screen name="Tela 2" component={Page1} options={{ headerShown: false }} />
+        <Stack.Screen name="Tela 3" component={Page2} options={{ headerShown: false }} />
+        <Stack.Screen name="Tela 4" component={Page3} options={{ headerShown: false }} />
+        <Stack.Screen name="Tela 5" component={Page4} options={{ headerShown: false }} />
         
       </Stack.Navigator>
     </NavigationContainer>

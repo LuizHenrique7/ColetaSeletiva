@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Formulario() {
+  const navigation = useNavigation();
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
   const [mensagem, setMensagem] = useState('');
 
   const enviarMensagem = () => {
-    
     console.log('Mensagem enviada!');
   };
 
   return (
     <View style={styles.container}>
-    <Image style={styles.imagem} source={require('./image/logo.jpeg')} />
+      <Text style={styles.title}>MAIS INFORMAÇÕES</Text>
       <TextInput
         style={styles.input}
         placeholder="Nome"
@@ -41,13 +42,15 @@ export default function Formulario() {
         value={mensagem}
         onChangeText={(text) => setMensagem(text)}
       />
-      <TouchableOpacity style={styles.button} onPress={enviarMensagem}>
+      <TouchableOpacity style={styles.buttonEnviar} onPress={enviarMensagem}>
         <Text style={styles.buttonText}>Enviar</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Tela 1')}>
+        <Text style={styles.buttonText}>Voltar</Text>
       </TouchableOpacity>
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -68,8 +71,9 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#A0C447',
     borderRadius: 5,
-    padding: 16,
+    padding: 10,
     marginTop: 20,
+    paddingHorizontal: 60,
   },
   buttonText: {
     color: 'white',
@@ -87,6 +91,21 @@ const styles = StyleSheet.create({
     width: 200,
     height: 250,
     marginTop: 50,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#A0C447',
+    marginTop: 10,
+    marginBottom: 65,
+  },
+  buttonEnviar: {
+    backgroundColor: '#1E90FF',
+    borderRadius: 5,
+    padding: 10,
+    marginTop: 20,
+    paddingHorizontal: 60,
+    
   },
 
 });
