@@ -1,111 +1,126 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { View, TextInput, Button, Alert, StyleSheet, Text, StatusBar, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
-export default function Formulario() {
+const Tela5 = () => {
   const navigation = useNavigation();
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
   const [mensagem, setMensagem] = useState('');
 
-  const enviarMensagem = () => {
-    console.log('Mensagem enviada!');
+  const handleSubmit = async () => {
+    try {
+      const data = {
+        from: 'coletaseletiva2023@outlook.com', 
+        to: 'coletaseletiva2023@outlook.com', 
+        subject: 'Assunto do Email',
+        text: `Nome: ${nome}\nEmail: ${email}\nTelefone: ${telefone}\nMensagem: ${mensagem}`,
+        apiKey: '', 
+      }; Alert.alert('Email enviado com sucesso');
+
+      const response = await axios.post('https://api.elasticemail.com/v2/email/send', data);
+
+      console.log('Email enviado com sucesso', response.data);
+      
+    } catch (error) {
+      console.error('Erro ao enviar o email', error);
+      
+      Alert.alert('Erro', 'Ocorreu um erro ao enviar o email.');
+    }
   };
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#F3E0CF"/>
+      <View style={styles.statusBar}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={styles.backButton}>Voltar</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.container}>
       <Text style={styles.title}>MAIS INFORMAÇÕES</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Nome"
-        value={nome}
-        onChangeText={(text) => setNome(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Telefone"
-        value={telefone}
-        onChangeText={(text) => setTelefone(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Mensagem"
-        multiline={true}
-        numberOfLines={20}
-        value={mensagem}
-        onChangeText={(text) => setMensagem(text)}
-      />
-      <TouchableOpacity style={styles.buttonEnviar} onPress={enviarMensagem}>
-        <Text style={styles.buttonText}>Enviar</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Tela 1')}>
-        <Text style={styles.buttonText}>Voltar</Text>
-      </TouchableOpacity>
+        <TextInput
+          style={styles.input}
+          onChangeText={text => setNome(text)}
+          value={nome}
+          placeholder="Nome"
+        />
+        <TextInput
+          style={styles.input}
+          onChangeText={text => setEmail(text)}
+          value={email}
+          placeholder="Email"
+          keyboardType="email-address"
+        />
+        <TextInput
+          style={styles.input}
+          onChangeText={text => setTelefone(text)}
+          value={telefone}
+          placeholder="Telefone"
+          keyboardType="phone-pad"
+        />
+        <TextInput
+          style={styles.input}
+          onChangeText={text => setMensagem(text)}
+          value={mensagem}
+          placeholder="Mensagem"
+          multiline
+        />
+        <Button title="Enviar" onPress={handleSubmit} />
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>© 2023 Secretaria Municipal de Agricultura e Meio Ambiente</Text>
+        </View>
+      </View>
     </View>
   );
-}
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F3E0CF',
-    alignItems: 'center',
-    justifyContent: 'center',
     padding: 20,
+    backgroundColor: '#F3E0CF',
   },
   input: {
-    width: '100%',
     height: 40,
-    borderColor: 'white',
+    borderColor: 'gray',
     borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
     marginBottom: 10,
+    paddingHorizontal: 10,
   },
-  button: {
-    backgroundColor: '#A0C447',
-    borderRadius: 5,
-    padding: 10,
-    marginTop: 20,
-    paddingHorizontal: 60,
+  statusBar: {
+    height: StatusBar.currentHeight + 10,
+    backgroundColor: '#F3E0CF',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    paddingLeft: 10,
+    paddingHorizontal: 20,
   },
-  buttonText: {
-    color: 'white',
+  backButton: {
+    color: 'black',
     fontSize: 16,
     fontWeight: 'bold',
-    textAlign: 'center',
   },
-  imageContainer: {
-    flex: 1,
-    justifyContent: 'flex-start',
+  footer: {
+    marginTop: 250,
+    marginBottom: 35,
     alignItems: 'center',
-    marginTop: 50,
+    padding: 20,
   },
-  imagem: {
-    width: 200,
-    height: 250,
-    marginTop: 50,
+  footerText: {
+    fontSize: 14,
+    color: '#999999',
   },
   title: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
     color: '#A0C447',
-    marginTop: 10,
+    marginTop: 30,
     marginBottom: 65,
+    textAlign: "center",
   },
-  buttonEnviar: {
-    backgroundColor: '#1E90FF',
-    borderRadius: 5,
-    padding: 10,
-    marginTop: 20,
-    paddingHorizontal: 60,
-    
-  },
-
 });
+
+export default Tela5;
